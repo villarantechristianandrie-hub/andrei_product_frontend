@@ -29,32 +29,44 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="card auth">
-      <h1>{mode === 'login' ? 'Login' : 'Create account'}</h1>
-      {error && <div className="alert error">{error}</div>}
-      {notice && <div className="alert success">{notice}</div>}
+    <main className="auth-page">
+      <section className="auth-intro">
+        <a className="brand brand-light" href="#login"><span className="brand-mark">F</span><span>FIELDWORK<span className="brand-subtitle">PRODUCT REGISTER</span></span></a>
+        <div className="intro-copy"><p className="eyebrow">STOCK, IN GOOD ORDER.</p><h1>Know what<br />you have.</h1><p>A considered view of your product catalogue, quantities, and value.</p></div>
+        <div className="intro-baseline"><span>INVENTORY SYSTEM</span><span>01 / SECURE ACCESS</span></div>
+      </section>
+      <section className="auth-panel" id="login">
+        <div className="auth-box">
+          <p className="eyebrow">ACCOUNT ACCESS</p>
+          <h2>{mode === 'login' ? 'Welcome back.' : 'Create an account.'}</h2>
+          <p className="auth-description">{mode === 'login' ? 'Sign in to view the product register.' : 'Register to get read-only product access.'}</p>
+          {error && <div className="alert error" role="alert">{error}</div>}
+          {notice && <div className="alert success" role="status">{notice}</div>}
 
-      <form onSubmit={submit}>
-        <label>Username
-          <input value={form.username} onChange={set('username')} required autoFocus />
-        </label>
-        {mode === 'register' && (
-          <label>Email
-            <input type="email" value={form.email} onChange={set('email')} required />
-          </label>
-        )}
-        <label>Password
-          <input type="password" value={form.password} onChange={set('password')} required minLength={6} />
-        </label>
-        <button disabled={busy}>{busy ? 'Please wait…' : mode === 'login' ? 'Login' : 'Register'}</button>
-      </form>
+          <form onSubmit={submit}>
+            <label>Username
+              <input value={form.username} onChange={set('username')} required autoFocus autoComplete="username" />
+            </label>
+            {mode === 'register' && (
+              <label>Email address
+                <input type="email" value={form.email} onChange={set('email')} required autoComplete="email" />
+              </label>
+            )}
+            <label>Password
+              <input type="password" value={form.password} onChange={set('password')} required minLength={6} autoComplete={mode === 'login' ? 'current-password' : 'new-password'} />
+            </label>
+            <button className="button button-primary auth-submit" disabled={busy}>{busy ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}<span aria-hidden="true">→</span></button>
+          </form>
 
-      <p className="muted">
-        {mode === 'login' ? 'No account yet? ' : 'Already registered? '}
-        <a href="#" onClick={(e) => { e.preventDefault(); setError(''); setMode(mode === 'login' ? 'register' : 'login'); }}>
-          {mode === 'login' ? 'Register' : 'Login'}
-        </a>
-      </p>
-    </div>
+          <p className="auth-switch">
+            {mode === 'login' ? 'New to Fieldwork?' : 'Already have an account?'}{' '}
+            <a href="#login" onClick={(e) => { e.preventDefault(); setError(''); setMode(mode === 'login' ? 'register' : 'login'); }}>
+              {mode === 'login' ? 'Create an account' : 'Sign in'}
+            </a>
+          </p>
+        </div>
+        <footer className="auth-footnote">Your account is protected with secure sign-in.</footer>
+      </section>
+    </main>
   );
 }
